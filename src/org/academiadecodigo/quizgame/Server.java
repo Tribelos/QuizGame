@@ -1,5 +1,8 @@
 package org.academiadecodigo.quizgame;
 
+import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -8,7 +11,9 @@ import java.util.concurrent.*;
 public class Server {
 
     private int port;
+    private static final int MAX_NUM_PLAYERS = 20;
     private final List<ClientDispatcher> players = Collections.synchronizedList(new ArrayList<>());
+    private CustomMessages msg;
 
     public Server(int port) {
         this.port = port;
@@ -17,7 +22,7 @@ public class Server {
 
     private void init() {
         int playerNum = 0;
-        ExecutorService fixedPool = Executors.newFixedThreadPool(4);
+        ExecutorService fixedPool = Executors.newFixedThreadPool(MAX_NUM_PLAYERS);
 
         try {
             System.out.println("Bind to port " + port + "");
@@ -69,17 +74,48 @@ public class Server {
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
+
+        public void startMenu() throws IOException {
+
+
+            InputStream input = clientSocket.getInputStream();
+            PrintStream output = new PrintStream(clientSocket.getOutputStream());
+
+            String[] options = {"Join Game", "Leave"};
+
+            MenuInputScanner scanner = new MenuInputScanner(options);
+
+            scanner.setMessage("Do you want to play?");
+            Prompt prompt = new Prompt(input, output);
+            int answerIndex = prompt.getUserInput(scanner);
+            int playerChoice = answerIndex - 1;
+
+            if (playerChoice == 2){
+                out.write("K then bye");
+                clientSocket.close();
+                in.close();
+                return;
+            }
+
+            out.write("Let's play !! \n Good luck !!");
+
+
+        }
+
         public String getName() {
             return name;
         }
 
         @Override
         public void run() {
-
             try {
 
+                startMenu();
+
                 while (!clientSocket.isClosed()) {
+
                     String line = in.readLine();
+
                     if (line == null) {
                         System.out.println("Player " + name + " left the room");
                         in.close();
@@ -101,9 +137,11 @@ public class Server {
         public void send(String originClient, String message) {
 
             try {
+
                 out.write(originClient + ": " + message);
                 out.newLine();
                 out.flush();
+
 
             } catch (IOException e){
                 System.out.println(e);
