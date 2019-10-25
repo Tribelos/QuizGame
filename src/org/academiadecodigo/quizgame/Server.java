@@ -80,24 +80,30 @@ public class Server {
 
             InputStream input = clientSocket.getInputStream();
             PrintStream output = new PrintStream(clientSocket.getOutputStream());
-
-            String[] options = {"Join Game", "Leave"};
-
+            String[] options = {"Leave", "Join the quizizinho"};
             MenuInputScanner scanner = new MenuInputScanner(options);
 
             scanner.setMessage("Do you want to play?");
             Prompt prompt = new Prompt(input, output);
-            int answerIndex = prompt.getUserInput(scanner);
-            int playerChoice = answerIndex - 1;
 
-            if (playerChoice == 2){
+            int answerIndex = prompt.getUserInput(scanner);
+            System.out.println(answerIndex);
+
+            if (answerIndex == 1){
                 out.write("K then bye");
+                out.newLine();
+                out.flush();
                 clientSocket.close();
                 in.close();
-                return;
             }
 
-            out.write("Let's play !! \n Good luck !!");
+            if(answerIndex == 2){
+                out.write("Let's play !! Good luck !!");
+                out.newLine();
+                out.flush();
+            }
+
+
 
 
         }
@@ -122,6 +128,7 @@ public class Server {
                         clientSocket.close();
                         continue;
                     }
+
 
                     broadcast(name, line);
                 }
