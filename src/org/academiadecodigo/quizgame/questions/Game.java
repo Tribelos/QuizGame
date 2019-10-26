@@ -1,15 +1,11 @@
-package org.academiadecodigo.quizgame.Questions;
-
-import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+package org.academiadecodigo.quizgame.questions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Game {
-
+/*
     private static final Random random = new Random();
     private static List<Question> loadQuestions() {
 
@@ -50,5 +46,5 @@ public class Game {
         }
 
     }
-
+*/
 }

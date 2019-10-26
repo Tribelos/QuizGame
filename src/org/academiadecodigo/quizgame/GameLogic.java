@@ -6,8 +6,7 @@ import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.sql.SQLOutput;
 
 
 public class GameLogic {
@@ -16,13 +15,18 @@ public class GameLogic {
     private BufferedReader in;
     private BufferedWriter out;
     private Prompt prompt;
-    //private List<String> currentPlayers = Collections.synchronizedList(new ArrayList<>());
-    //private ConcurrentHashMap<String, Integer> gamePlayers;
+    private Questions questions;
+    private String questionText;
+    private String[] questionAnswers;
+    private String correctAnswer;
+
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
         this.clientSocket = clientSocket;
         this.in = in;
         this.out = out;
+        this.questions = new Questions();
+        //this.questionAnswers = new String[4];
         init();
     }
 
@@ -32,7 +36,7 @@ public class GameLogic {
         this.prompt = new Prompt(input, output);
     }
 
-    public void gameStart() throws IOException {
+    public void menuInit() throws IOException {
         startMenu();
     }
     
@@ -51,9 +55,7 @@ public class GameLogic {
         
 
         String[] options = {"Join the Quizizinho", "Leave"};
-
         MenuInputScanner mainMenu = new MenuInputScanner(options);
-
         mainMenu.setMessage("Do you want to play?");
 
         int answerIndex = prompt.getUserInput(mainMenu);
@@ -73,7 +75,6 @@ public class GameLogic {
             out.flush();
             chooseName();
         }
-
     }
 
     private void chooseName() throws IOException {
@@ -88,21 +89,41 @@ public class GameLogic {
         out.newLine();
         out.flush();
 
-        question();
+        gameStart();
     }
 
 
-    private void question() throws IOException {
+    private void question(){
 
-        String[] firstQuestionOptions = {"basilio", "trigo", "lando", "bessa"};
 
-        MenuInputScanner mainMenu = new MenuInputScanner(firstQuestionOptions);
+        System.out.println("aefea");
+        String[] question = questions.getRandom();
 
-        mainMenu.setMessage("...?");
+        System.out.println("aaefeaf");
+
+        questionText = question[0];
+        questionAnswers = new String[]{question[1], question[2], question[3], question[4]};
+        correctAnswer = question[5];
+        System.out.println(questionText);
+        System.out.println(questionAnswers[0]);
+        System.out.println(correctAnswer);
+    }
+
+
+
+    private void gameStart() throws IOException {
+
+        question();
+
+        MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
+
+        mainMenu.setMessage(questionText);
 
         int answerIndex = prompt.getUserInput(mainMenu);
 
-        if(answerIndex != 4){
+        String answer = questionAnswers[answerIndex - 1];
+
+        if(answer != correctAnswer){
             out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
             newLineAndFlush();
             return;
@@ -110,6 +131,7 @@ public class GameLogic {
 
         out.write("Correct! Great Success");
         newLineAndFlush();
+
     }
 
 
@@ -118,13 +140,13 @@ public class GameLogic {
         out.flush();
     }
 
- private class CurrentPlayers {
+ /*private class CurrentPlayers {
         private String name;
 
         public CurrentPlayers(String name) {
             this.name = name;
         }
 
-    }
+    }*/
 
 }

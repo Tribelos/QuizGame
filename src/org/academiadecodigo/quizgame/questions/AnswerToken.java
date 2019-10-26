@@ -1,4 +1,4 @@
-package org.academiadecodigo.quizgame.Questions;
+package org.academiadecodigo.quizgame.questions;
 
 public enum AnswerToken {
     A("A"),B("B"),C("C"),D("D");

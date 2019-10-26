@@ -1,4 +1,4 @@
-package org.academiadecodigo.quizgame.Questions;
+package org.academiadecodigo.quizgame.questions;
 
 public class Answer {
 

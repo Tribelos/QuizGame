@@ -71,7 +71,7 @@ public class Server {
             try {
 
                 GameLogic gameLogic = new GameLogic(clientSocket, in, out);
-                gameLogic.gameStart();
+                gameLogic.menuInit();
 
                 while (!clientSocket.isClosed()) {
 
