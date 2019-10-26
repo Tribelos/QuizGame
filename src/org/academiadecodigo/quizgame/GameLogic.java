@@ -6,8 +6,6 @@ import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
 import java.io.*;
 import java.net.*;
-import java.sql.SQLOutput;
-
 
 public class GameLogic {
 
@@ -21,7 +19,7 @@ public class GameLogic {
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
-    public static final int NUMBER_OF_ROUNDS = 5;
+    public static final int NUMBER_OF_ROUNDS = 15;
 
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
@@ -126,12 +124,14 @@ public class GameLogic {
             String answer = questionAnswers[answerIndex - 1];
 
             if(answer != correctAnswer){
+                clear();
                 out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
                 newLineAndFlush();
+
                 continue;
             }
             clear();
-            out.write("Correct! Great Success");
+            out.write("*** CORRECT! Great Success ***");
             newLineAndFlush();
 
             playerScore+= 10;
@@ -144,7 +144,7 @@ public class GameLogic {
 
     public void gameOver() throws IOException {
 
-        out.write("GAME OVER! \nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
+        out.write(" === GAME OVER! ===\nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
         newLineAndFlush();
     }
 
