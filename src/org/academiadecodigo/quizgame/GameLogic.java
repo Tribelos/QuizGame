@@ -155,5 +155,6 @@ public class GameLogic {
 
     private void clear() throws IOException {
         out.write("\033[2J");
+        out.flush();
     }
 }
