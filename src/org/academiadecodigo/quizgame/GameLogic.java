@@ -16,9 +16,12 @@ public class GameLogic {
     private BufferedWriter out;
     private Prompt prompt;
     private Questions questions;
+    private String playerName;
+    private int playerScore;
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
+    public static final int NUMBER_OF_ROUNDS = 3;
 
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
@@ -26,7 +29,6 @@ public class GameLogic {
         this.in = in;
         this.out = out;
         this.questions = new Questions();
-        //this.questionAnswers = new String[4];
         init();
     }
 
@@ -83,7 +85,7 @@ public class GameLogic {
         askName.setMessage("What's your name?  ");
         out.newLine();
 
-        String playerName = prompt.getUserInput(askName);
+        playerName = prompt.getUserInput(askName);
 
         out.write("Welcome to the QUIZIZINHO, " + playerName + "! Good luck!");
         out.newLine();
@@ -95,58 +97,55 @@ public class GameLogic {
 
     private void question(){
 
-
-        System.out.println("aefea");
         String[] question = questions.getRandom();
-
-        System.out.println("aaefeaf");
 
         questionText = question[0];
         questionAnswers = new String[]{question[1], question[2], question[3], question[4]};
         correctAnswer = question[5];
-        System.out.println(questionText);
-        System.out.println(questionAnswers[0]);
-        System.out.println(correctAnswer);
     }
 
 
 
     private void gameStart() throws IOException {
 
-        question();
+        playerScore = 0;
+        int questionCounter = 0;
 
-        MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
+        while (questionCounter < NUMBER_OF_ROUNDS){
 
-        mainMenu.setMessage(questionText);
+            question();
+            questionCounter++;
 
-        int answerIndex = prompt.getUserInput(mainMenu);
+            MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
 
-        String answer = questionAnswers[answerIndex - 1];
+            mainMenu.setMessage(questionText);
 
-        if(answer != correctAnswer){
-            out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
+            int answerIndex = prompt.getUserInput(mainMenu);
+
+            String answer = questionAnswers[answerIndex - 1];
+
+            if(answer != correctAnswer){
+                out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
+                newLineAndFlush();
+                continue;
+            }
+            out.write("Correct! Great Success");
             newLineAndFlush();
-            return;
+            playerScore+= 10;
         }
-
-        out.write("Correct! Great Success");
-        newLineAndFlush();
-
+        gameOver();
     }
 
+
+    public void gameOver() throws IOException {
+
+        out.write("GAME OVER! \nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
+        newLineAndFlush();
+    }
 
     private void newLineAndFlush() throws IOException {
         out.newLine();
         out.flush();
     }
-
- /*private class CurrentPlayers {
-        private String name;
-
-        public CurrentPlayers(String name) {
-            this.name = name;
-        }
-
-    }*/
 
 }
