@@ -40,7 +40,7 @@ public class Question {
 
     }
 
-
+    // Get text from questions
     public String getText() {
 
         return text;

@@ -72,6 +72,7 @@ public class Server {
 
                 GameLogic gameLogic = new GameLogic(clientSocket, in, out);
                 gameLogic.gameStart();
+
                 while (!clientSocket.isClosed()) {
 
                     String line = in.readLine();
@@ -81,8 +82,6 @@ public class Server {
                         clientSocket.close();
                         continue;
                     }
-
-
                     broadcast(line);
                 }
 
@@ -91,8 +90,8 @@ public class Server {
             } catch (IOException e) {
                 System.out.println(e);
             }
-
         }
+
 
         public void send(String message) {
 
@@ -102,13 +101,10 @@ public class Server {
                 out.newLine();
                 out.flush();
 
-
             } catch (IOException e){
                 System.out.println(e);
             }
-
         }
-
     }
 
 

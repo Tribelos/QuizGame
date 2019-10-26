@@ -7,6 +7,7 @@ import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class GameLogic {
@@ -15,7 +16,8 @@ public class GameLogic {
     private BufferedReader in;
     private BufferedWriter out;
     private Prompt prompt;
-    private List<String> currentPlayers = Collections.synchronizedList(new ArrayList<>());
+    //private List<String> currentPlayers = Collections.synchronizedList(new ArrayList<>());
+    //private ConcurrentHashMap<String, Integer> gamePlayers;
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
         this.clientSocket = clientSocket;
@@ -47,8 +49,11 @@ public class GameLogic {
         out.newLine();
         out.flush();
         
+
         String[] options = {"Join the Quizizinho", "Leave"};
+
         MenuInputScanner mainMenu = new MenuInputScanner(options);
+
         mainMenu.setMessage("Do you want to play?");
 
         int answerIndex = prompt.getUserInput(mainMenu);
@@ -72,13 +77,45 @@ public class GameLogic {
     }
 
     private void chooseName() throws IOException {
+
         StringInputScanner askName = new StringInputScanner();
         askName.setMessage("What's your name?  ");
         out.newLine();
-        out.flush();
+
         String playerName = prompt.getUserInput(askName);
-        out.write("your name is :" + playerName);
-        currentPlayers.add(playerName);
+
+        out.write("Welcome to the QUIZIZINHO, " + playerName + "! Good luck!");
+        out.newLine();
+        out.flush();
+
+        question();
+    }
+
+
+    private void question() throws IOException {
+
+        String[] firstQuestionOptions = {"basilio", "trigo", "lando", "bessa"};
+
+        MenuInputScanner mainMenu = new MenuInputScanner(firstQuestionOptions);
+
+        mainMenu.setMessage("...?");
+
+        int answerIndex = prompt.getUserInput(mainMenu);
+
+        if(answerIndex != 4){
+            out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
+            newLineAndFlush();
+            return;
+        }
+
+        out.write("Correct! Great Success");
+        newLineAndFlush();
+    }
+
+
+    private void newLineAndFlush() throws IOException {
+        out.newLine();
+        out.flush();
     }
 
  private class CurrentPlayers {
