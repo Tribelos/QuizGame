@@ -130,7 +130,7 @@ public class GameLogic {
                 newLineAndFlush();
                 continue;
             }
-
+            clear();
             out.write("Correct! Great Success");
             newLineAndFlush();
 
@@ -153,4 +153,7 @@ public class GameLogic {
         out.flush();
     }
 
+    private void clear() throws IOException {
+        out.write("\033[2J");
+    }
 }
