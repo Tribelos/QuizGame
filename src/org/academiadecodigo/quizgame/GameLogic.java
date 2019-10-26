@@ -100,10 +100,6 @@ public class GameLogic {
         String[] question = questions.getRandom();
         questions.getArrayList().remove(question);
 
-        for( int i = 0; i < questions.getArrayList().size(); i++){
-            System.out.println(questions.getArrayList().get(i).toString());
-        }
-
         questionText = question[0];
         questionAnswers = new String[]{question[1], question[2], question[3], question[4]};
         correctAnswer = question[5];

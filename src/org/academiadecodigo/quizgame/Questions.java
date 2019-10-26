@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public class Questions {
 
-    private ArrayList<String[]> arraylist;
-    private ArrayList<Integer> askedQuestions;
+    private ArrayList<String[]> arrayList;
 
     public Questions() {
-        this.arraylist = new ArrayList<>();
+        this.arrayList = new ArrayList<>();
         allQuestion();
     }
 
@@ -87,48 +86,48 @@ public class Questions {
         String[] question30 = {"Which city in India would you find the Taj Mahal in?", "New Delhi", "Agra", "Jaipur", "Mumbai", "Agra"};
 
 
-        arraylist.add(question1);
-        arraylist.add(question2);
-        arraylist.add(question3);
-        arraylist.add(question4);
-        arraylist.add(question5);
-        arraylist.add(question6);
-        arraylist.add(question7);
-        arraylist.add(question8);
-        arraylist.add(question9);
-        arraylist.add(question10);
-        arraylist.add(question11);
-        arraylist.add(question12);
-        arraylist.add(question13);
-        arraylist.add(question14);
-        arraylist.add(question15);
-        arraylist.add(question16);
-        arraylist.add(question17);
-        arraylist.add(question18);
-        arraylist.add(question19);
-        arraylist.add(question20);
-        arraylist.add(question21);
-        arraylist.add(question22);
-        arraylist.add(question23);
-        arraylist.add(question24);
-        arraylist.add(question25);
-        arraylist.add(question26);
-        arraylist.add(question27);
-        arraylist.add(question28);
-        arraylist.add(question29);
-        arraylist.add(question30);
+        arrayList.add(question1);
+        arrayList.add(question2);
+        arrayList.add(question3);
+        arrayList.add(question4);
+        arrayList.add(question5);
+        arrayList.add(question6);
+        arrayList.add(question7);
+        arrayList.add(question8);
+        arrayList.add(question9);
+        arrayList.add(question10);
+        arrayList.add(question11);
+        arrayList.add(question12);
+        arrayList.add(question13);
+        arrayList.add(question14);
+        arrayList.add(question15);
+        arrayList.add(question16);
+        arrayList.add(question17);
+        arrayList.add(question18);
+        arrayList.add(question19);
+        arrayList.add(question20);
+        arrayList.add(question21);
+        arrayList.add(question22);
+        arrayList.add(question23);
+        arrayList.add(question24);
+        arrayList.add(question25);
+        arrayList.add(question26);
+        arrayList.add(question27);
+        arrayList.add(question28);
+        arrayList.add(question29);
+        arrayList.add(question30);
     }
 
     public String[] getRandom(){
 
-        int randomQuestion = (int) Math.round(Math.random() * arraylist.size());
+        int randomQuestion = (int) Math.round(Math.random() * arrayList.size());
 
-        return arraylist.get(randomQuestion);
+        return arrayList.get(randomQuestion);
 
     }
 
     public ArrayList<String[]> getArrayList(){
 
-        return arraylist;
+        return arrayList;
     }
 }
