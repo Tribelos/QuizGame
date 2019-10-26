@@ -21,7 +21,7 @@ public class GameLogic {
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
-    public static final int NUMBER_OF_ROUNDS = 3;
+    public static final int NUMBER_OF_ROUNDS = 5;
 
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
@@ -98,6 +98,11 @@ public class GameLogic {
     private void question(){
 
         String[] question = questions.getRandom();
+        questions.getArrayList().remove(question);
+
+        for( int i = 0; i < questions.getArrayList().size(); i++){
+            System.out.println(questions.getArrayList().get(i).toString());
+        }
 
         questionText = question[0];
         questionAnswers = new String[]{question[1], question[2], question[3], question[4]};
@@ -129,10 +134,14 @@ public class GameLogic {
                 newLineAndFlush();
                 continue;
             }
+
             out.write("Correct! Great Success");
             newLineAndFlush();
+
             playerScore+= 10;
+
         }
+
         gameOver();
     }
 
