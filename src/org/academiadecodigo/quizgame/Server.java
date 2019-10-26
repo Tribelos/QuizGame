@@ -14,6 +14,7 @@ public class Server {
     private static final int MAX_NUM_PLAYERS = 20;
     private final List<ClientDispatcher> players = Collections.synchronizedList(new ArrayList<>());
     private CustomMessages msg;
+    private int playerNum;
 
     public Server(int port) {
         this.port = port;
@@ -21,7 +22,8 @@ public class Server {
     }
 
     private void init() {
-        int playerNum = 0;
+
+        playerNum = 0;
         ExecutorService fixedPool = Executors.newFixedThreadPool(MAX_NUM_PLAYERS);
 
         try {
@@ -52,6 +54,11 @@ public class Server {
 
     }
 
+
+    public int getPlayerNum() {
+        return playerNum;
+    }
+
     private void broadcast(String originClient, String message) {
         synchronized (players) {
             for (ClientDispatcher player : players) {
@@ -74,6 +81,7 @@ public class Server {
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
+        /*
 
         public void startMenu() throws IOException {
 
@@ -108,6 +116,8 @@ public class Server {
 
         }
 
+         */
+
         public String getName() {
             return name;
         }
@@ -116,7 +126,8 @@ public class Server {
         public void run() {
             try {
 
-                startMenu();
+                GameLogic gameLogic = new GameLogic(clientSocket);
+                gameLogic.startMenu(in, out);
 
                 while (!clientSocket.isClosed()) {
 
