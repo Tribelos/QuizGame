@@ -121,8 +121,8 @@ public class Server {
                 out.flush();
 
                 while (currentPlayers.size() != 2) {
-                    GameLogic gameLogic = new GameLogic(currentPlayers);
-                    //start game method
+                    Game newGame = new Game(currentPlayers);
+                    newGame.start();
                 }
 
                 while (!clientSocket.isClosed()) {

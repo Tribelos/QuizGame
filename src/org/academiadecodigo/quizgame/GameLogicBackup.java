@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class GameLogic {
+public class GameLogicBackup {
 
 
     private Prompt prompt;
@@ -21,11 +21,6 @@ public class GameLogic {
     private ArrayList<CurrentPlayer> currentPlayers;
 
 
-
-    public GameLogic (ArrayList<CurrentPlayer> currentPlayers) throws IOException {
-        this.currentPlayers = currentPlayers;
-        init();
-    }
 
     private void init() throws IOException {
 

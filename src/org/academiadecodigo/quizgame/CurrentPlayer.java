@@ -20,4 +20,24 @@ public class CurrentPlayer {
         this.score = 0;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+
+    public BufferedWriter getOut() {
+        return out;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
 }
