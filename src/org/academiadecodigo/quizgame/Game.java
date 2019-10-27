@@ -1,5 +1,6 @@
 package org.academiadecodigo.quizgame;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Game {
@@ -10,7 +11,7 @@ public class Game {
         this.currentPlayers = currentPlayers;
     }
 
-    public void start() {
+    public void start() throws IOException {
 
         for (CurrentPlayer currentPlayer : currentPlayers) {
             GameLogic gameLogic = new GameLogic(currentPlayer.getClientSocket(), currentPlayer.getIn(), currentPlayer.getOut(), currentPlayer.getName(), currentPlayer.getScore());
