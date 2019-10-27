@@ -1,7 +1,5 @@
 package org.academiadecodigo.quizgame;
 
-import java.io.*;
-import java.net.*;
 import java.util.*;
 
 public class Game {
@@ -20,22 +18,5 @@ public class Game {
 
     }
 
-    private class GameLogic {
 
-        private Socket clientSocket;
-        private BufferedReader in;
-        private BufferedWriter out;
-        private String name;
-        private int score;
-
-        public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out, String name, int score){
-            this.clientSocket = clientSocket;
-            this.in = in;
-            this.out = out;
-            this.name = name;
-            this.score = score;
-        }
-
-
-    }
 }

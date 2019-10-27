@@ -1,34 +1,38 @@
 package org.academiadecodigo.quizgame;
 
 import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-import org.academiadecodigo.quizgame.timer.CountDown;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
-public class GameLogicBackup {
+public class GameLogic implements Runnable {
 
-
-    private Prompt prompt;
+    private Prompt gamePromt;
+    private Socket clientSocket;
+    private BufferedReader in;
+    private BufferedWriter out;
+    private String name;
+    private int score;
 
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
     public static final int NUMBER_OF_ROUNDS = 15;
-    private ArrayList<CurrentPlayer> currentPlayers;
 
-
-
-    private void init() throws IOException {
-
-        InputStream input = clientSocket.getInputStream();
-        PrintStream output = new PrintStream(clientSocket.getOutputStream());
-        this.prompt = new Prompt(input, output);
+    public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out, String name, int score) throws IOException {
+        this.clientSocket = clientSocket;
+        this.in = in;
+        this.out = out;
+        this.name = name;
+        this.score = score;
+        init();
     }
 
+    private void init() throws IOException {
+        InputStream input = clientSocket.getInputStream();
+        PrintStream output = new PrintStream(clientSocket.getOutputStream());
+        this.gamePromt = new Prompt(input, output);
+    }
 
     private void question(){
 
@@ -107,5 +111,10 @@ public class GameLogicBackup {
     private void clear() throws IOException {
         out.write("\033[2J");
         newLineAndFlush();
+    }
+
+    @Override
+    public void run() {
+
     }
 }
