@@ -7,7 +7,7 @@ import org.academiadecodigo.quizgame.timer.CountDown;
 import java.io.*;
 import java.net.*;
 
-public class GameLogic implements Runnable {
+public class GameLogic {
 
     private Prompt gamePromt;
     private Socket clientSocket;
@@ -47,7 +47,7 @@ public class GameLogic implements Runnable {
         correctAnswer = question[5];
     }
 
-    private void gameStart() throws IOException {
+    public void gameStart() throws IOException {
 
         int questionCounter = 0;
         int printQuestion = questionCounter + 1;
@@ -115,12 +115,4 @@ public class GameLogic implements Runnable {
         newLineAndFlush();
     }
 
-    @Override
-    public void run() {
-        try {
-            gameStart();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

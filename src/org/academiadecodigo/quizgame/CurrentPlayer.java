@@ -1,7 +1,6 @@
 package org.academiadecodigo.quizgame;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 import java.net.*;
 
 public class CurrentPlayer {

@@ -15,7 +15,6 @@ public class Server {
     private static final int MAX_NUM_PLAYERS = 20;
     private final List<ClientDispatcher> players = Collections.synchronizedList(new ArrayList<>());
     private ArrayList<CurrentPlayer> currentPlayers = new ArrayList<CurrentPlayer>();
-    private Prompt serverPrompt;
 
     public Server(int port) {
         this.port = port;
@@ -66,6 +65,8 @@ public class Server {
         out.newLine();
         out.flush();
 
+        Prompt serverPrompt = new Prompt(clientSocket.getInputStream(), new PrintStream(clientSocket.getOutputStream()));
+
         String[] options = {"Join the Quizizinho", "Leave"};
         MenuInputScanner mainMenu = new MenuInputScanner(options);
         mainMenu.setMessage("Do you want to play?");
@@ -103,6 +104,7 @@ public class Server {
         private final Socket clientSocket;
         private final BufferedReader in;
         private final BufferedWriter out;
+
 
         private ClientDispatcher(Socket clientSocket) throws IOException {
             this.clientSocket = clientSocket;
