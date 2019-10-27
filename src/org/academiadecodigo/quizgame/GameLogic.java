@@ -123,7 +123,7 @@ public class GameLogic {
 
             String answer = questionAnswers[answerIndex - 1];
 
-            if(answer != correctAnswer){
+            if(!answer.equals(correctAnswer)){
                 clear();
                 out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
                 newLineAndFlush();
