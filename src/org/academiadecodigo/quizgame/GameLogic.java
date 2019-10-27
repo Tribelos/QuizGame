@@ -13,6 +13,9 @@ public class GameLogic {
     private Socket clientSocket;
     private BufferedReader in;
     private BufferedWriter out;
+
+    private Server server;
+
     private Prompt prompt;
     private Questions questions;
     private String playerName;
@@ -22,13 +25,18 @@ public class GameLogic {
     private String correctAnswer;
     public static final int NUMBER_OF_ROUNDS = 15;
 
-
-    public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
+    /*public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
         this.clientSocket = clientSocket;
         this.in = in;
         this.out = out;
         this.questions = new Questions();
         init();
+    }*/
+
+    public GameLogic(Server server){
+        this.server = server;
+        this.in = server.getBufferedIn();
+        this.out = server.getBufferedOut();
     }
 
     private void init() throws IOException {

@@ -1,111 +1,63 @@
 package org.academiadecodigo.quizgame;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
+import org.academiadecodigo.quizgame.players.PlayerConnection;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
     private int port;
     private static final int MAX_NUM_PLAYERS = 20;
-    private final List<ClientDispatcher> players = Collections.synchronizedList(new ArrayList<>());
+    private final List<PlayerConnection> players = Collections.synchronizedList(new ArrayList<>());
 
-    public Server(int port) {
+    public Server(int port) throws IOException {
+
         this.port = port;
-        init();
+
     }
 
-    private void init() {
+    public void init() throws IOException {
 
         ExecutorService fixedPool = Executors.newFixedThreadPool(MAX_NUM_PLAYERS);
 
-        try {
-            System.out.println("Bind to port " + port + "");
-            ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server starting " + serverSocket + "");
+        System.out.println("Bind to port " + port + "");
 
-            while (true) {
+        ServerSocket serverSocket = new ServerSocket(port);
 
-                Socket clientSocket = serverSocket.accept();
+        System.out.println("Server starting " + serverSocket + "");
 
-                try {
+        GameLogic gameLogic = new GameLogic(this );
 
-                    ClientDispatcher clDispatcher = new ClientDispatcher(clientSocket);
-                    players.add(clDispatcher);
-                    fixedPool.submit(clDispatcher);
+        while(true){
 
-                } catch (IOException ex) {
-                    System.out.println("Client Error" + ex);
-                }
+            Socket clientSocket = serverSocket.accept();
+
+            try {
+
+                PlayerConnection playerConnection = new PlayerConnection(clientSocket);
+                //playerConnection.getInput().
+                players.add(playerConnection);
+                fixedPool.submit(playerConnection);
+
+            } catch (IOException ex) {
+                System.out.println("Client Error" + ex);
             }
-
-        } catch (IOException e) {
-            System.out.println("Server error");
         }
-
     }
-
+
     private void broadcast(String message) {
         synchronized (players) {
-            for (ClientDispatcher player : players) {
+            for (PlayerConnection player : players) {
                 player.send(message);
             }
         }
     }
-
-    private class ClientDispatcher implements Runnable {
-
-        private final Socket clientSocket;
-        private final BufferedReader in;
-        private final BufferedWriter out;
-
-        private ClientDispatcher(Socket clientSocket) throws IOException {
-            this.clientSocket = clientSocket;
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-        }
-
-        @Override
-        public void run() {
-            try {
-
-                GameLogic gameLogic = new GameLogic(clientSocket, in, out);
-                gameLogic.menuInit();
-
-                while (!clientSocket.isClosed()) {
-
-                    String line = in.readLine();
-
-                    if (line == null) {
-                        in.close();
-                        clientSocket.close();
-                        continue;
-                    }
-                    broadcast(line);
-                }
-
-                players.remove(this);
-
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-        }
-
-
-        public void send(String message) {
-
-            try {
-
-                out.write(message);
-                out.newLine();
-                out.flush();
-
-            } catch (IOException e){
-                System.out.println(e);
-            }
-        }
-    }
-
 
 }
