@@ -69,7 +69,7 @@ public class Questions {
 
         String[] question23 = {"In what year was the first episode of South Park aired?", "1995", "1996", "1997", "1998", "1997"};
 
-        String[] question24 = {"Who was the director of the film?", "David Fincher", "Guy Ritchie", "Danny Boyle", "Matthew Vaughn", "David Fincher"};
+        String[] question24 = {"Who was the director of the film FIGHT CLUB?", "David Fincher", "Guy Ritchie", "Danny Boyle", "Matthew Vaughn", "David Fincher"};
 
         String[] question25 = {"How many films did Sean Connery play James Bond in?", "4", "5", "6", "7", "7"};
 

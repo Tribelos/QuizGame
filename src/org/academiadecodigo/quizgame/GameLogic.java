@@ -5,7 +5,6 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.quizgame.timer.CountDown;
 
-import javax.sound.sampled.AudioInputStream;
 import java.io.*;
 import java.net.*;
 
@@ -48,9 +47,9 @@ public class GameLogic {
         out.newLine();
         out.flush();
 
-        String[] options = {"Join the Quizizinho", "Leave"};
+        String[] options = {"JOIN THE QUIZIZINHO", "LEAVE"};
         MenuInputScanner mainMenu = new MenuInputScanner(options);
-        mainMenu.setMessage("Do you want to play?");
+        mainMenu.setMessage("DO YOU WANT TO PLAY?");
 
         int answerIndex = prompt.getUserInput(mainMenu);
         
@@ -64,7 +63,7 @@ public class GameLogic {
         }
 
         if(answerIndex == 1){
-            out.write("Let's play !! Good luck !!");
+            out.write("LET'S PLAY!! GOOD LUCK!!");
             out.newLine();
             out.flush();
             chooseName();
@@ -79,11 +78,11 @@ public class GameLogic {
 
         playerName = prompt.getUserInput(askName);
 
-        out.write("Welcome to the QUIZIZINHO, " + playerName + "! Good luck!");
+        out.write("Welcome to the QUIZIZINHO, " + playerName.toUpperCase() + "! GOOD LUCK!");
         out.newLine();
         out.flush();
 
-        nextScreen("Welcome to the QUIZIZINHO, " + playerName + "! Good luck :)\nGet ready!!\nQuestion #1\n");
+        nextScreen("Welcome to the QUIZIZINHO, " + playerName.toUpperCase() + "! Good luck :)\nGET READY!!\nQUESTION #1\n");
 
         gameStart();
     }
@@ -106,8 +105,7 @@ public class GameLogic {
         int printQuestion = questionCounter + 1;
 
         while (questionCounter < NUMBER_OF_ROUNDS){
-
-
+            
             question();
             questionCounter++;
 
@@ -123,10 +121,6 @@ public class GameLogic {
                 clear();
                 printQuestion++;
 
-                if(questionCounter == NUMBER_OF_ROUNDS){
-                    break;
-                }
-
                 String wrongMsg = WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText();
 
                 nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
@@ -137,22 +131,17 @@ public class GameLogic {
 
             printQuestion++;
 
-
-            nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! Great Success ***\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
+            nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! GREAT SUCCESS ***\nQUESTION #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
             playerScore+= 10;
 
-            if(questionCounter == NUMBER_OF_ROUNDS){
-                break;
-            }
         }
 
         gameOver();
     }
 
 
-    public void gameOver() throws IOException {
-
-        out.write(Logos.GAME_OVER.getText() + "\nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
+    private void gameOver() throws IOException {
+        out.write(Logos.GAME_OVER.getText() + "\nCONGRATULATIONS " + playerName.toUpperCase() + "!\nYOUR SCORE WAS " + playerScore +"." );
         newLineAndFlush();
     }
 
@@ -167,10 +156,10 @@ public class GameLogic {
         out.write(message);
         newLineAndFlush();
 
-        CountDown countDown = new CountDown(3, out);
+        CountDown countDown = new CountDown(1, out);
 
         while(countDown.isActive()){
-            System.out.println("while in...");
+            System.out.println("\n");
         }
 
     }
