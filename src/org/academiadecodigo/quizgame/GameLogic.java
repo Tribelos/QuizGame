@@ -1,6 +1,8 @@
 package org.academiadecodigo.quizgame;
 
 import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
+import org.academiadecodigo.quizgame.timer.CountDown;
 
 import java.io.*;
 import java.net.*;
@@ -57,7 +59,7 @@ public class GameLogic implements Runnable {
             MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
             mainMenu.setMessage(questionText);
 
-            int answerIndex = prompt.getUserInput(mainMenu);
+            int answerIndex = gamePromt.getUserInput(mainMenu);
 
             String answer = questionAnswers[answerIndex - 1];
 
