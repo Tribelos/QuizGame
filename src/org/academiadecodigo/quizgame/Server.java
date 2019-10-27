@@ -53,7 +53,7 @@ public class Server {
     }
 
 
-    public void serverMenu(BufferedReader in, BufferedWriter out, Socket clientSocket) throws IOException {
+    private void serverMenu(BufferedReader in, BufferedWriter out, Socket clientSocket) throws IOException {
         out.write("\n" +
                 "     ██████╗ ██╗   ██╗██╗███████╗██╗███████╗██╗███╗   ██╗██╗  ██╗ ██████╗ \n" +
                 "    ██╔═══██╗██║   ██║██║╚══███╔╝██║╚══███╔╝██║████╗  ██║██║  ██║██╔═══██╗\n" +
@@ -94,29 +94,23 @@ public class Server {
         }
     }
 
-
-    public class ClientDispatcher implements Runnable {
+    private class ClientDispatcher implements Runnable {
 
         private final Socket clientSocket;
         private final BufferedReader in;
         private final BufferedWriter out;
-        private Server server;
 
         private ClientDispatcher(Socket clientSocket) throws IOException {
             this.clientSocket = clientSocket;
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            this.server = server;
         }
 
         @Override
         public void run() {
             try {
 
-                server.serverMenu(in,out,clientSocket);
-
-
-
+                serverMenu(in,out,clientSocket);
 
                 if(currentPlayers.size() == 2) {
                     GameLogic gameLogic = new GameLogic(currentPlayers);
@@ -143,20 +137,6 @@ public class Server {
             }
         }
 
-
-        public void send(String message) {
-
-            try {
-
-                out.write(message);
-                out.newLine();
-                out.flush();
-
-            } catch (IOException e){
-                System.out.println(e);
-            }
-        }
     }
-
-
+    
 }
