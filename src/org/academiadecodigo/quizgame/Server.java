@@ -122,9 +122,14 @@ public class Server {
                 out.newLine();
                 out.flush();
 
-                while (currentPlayers.size() != 2) {
-                    Game newGame = new Game(currentPlayers);
-                    newGame.start();
+                while (currentPlayers.size() <= 2) {
+
+                    if( currentPlayers.size() == 2) {
+                        Game newGame = new Game(currentPlayers);
+                        newGame.start();
+                        break;
+                    }
+                    continue;
                 }
 
                 while (!clientSocket.isClosed()) {

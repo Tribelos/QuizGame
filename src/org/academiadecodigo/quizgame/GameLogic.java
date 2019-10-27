@@ -49,6 +49,7 @@ public class GameLogic {
 
     public void gameStart() throws IOException {
 
+        System.out.println("pwese help");
         int questionCounter = 0;
         int printQuestion = questionCounter + 1;
 
