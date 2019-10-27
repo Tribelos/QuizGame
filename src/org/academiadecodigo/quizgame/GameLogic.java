@@ -20,7 +20,7 @@ public class GameLogic {
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
-    public static final int NUMBER_OF_ROUNDS = 3;
+    public static final int NUMBER_OF_ROUNDS = 15;
 
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
@@ -126,7 +126,7 @@ public class GameLogic {
                 nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
                 newLineAndFlush();
 
-                if (printQuestion == 3){
+                if (printQuestion == NUMBER_OF_ROUNDS){
                     break;
                 }
 
@@ -138,7 +138,7 @@ public class GameLogic {
             nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! GREAT SUCCESS ***\nQUESTION #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
             playerScore+= 10;
 
-            if (printQuestion == 3){
+            if (printQuestion == NUMBER_OF_ROUNDS){
                 break;
             }
 
