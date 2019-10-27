@@ -20,7 +20,7 @@ public class GameLogic {
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
-    public static final int NUMBER_OF_ROUNDS = 15;
+    public static final int NUMBER_OF_ROUNDS = 3;
 
 
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
@@ -43,17 +43,9 @@ public class GameLogic {
     
     private void startMenu() throws IOException {
 
-        out.write("\n" +
-                "     ██████╗ ██╗   ██╗██╗███████╗██╗███████╗██╗███╗   ██╗██╗  ██╗ ██████╗ \n" +
-                "    ██╔═══██╗██║   ██║██║╚══███╔╝██║╚══███╔╝██║████╗  ██║██║  ██║██╔═══██╗\n" +
-                "    ██║   ██║██║   ██║██║  ███╔╝ ██║  ███╔╝ ██║██╔██╗ ██║███████║██║   ██║\n" +
-                "    ██║▄▄ ██║██║   ██║██║ ███╔╝  ██║ ███╔╝  ██║██║╚██╗██║██╔══██║██║   ██║\n" +
-                "    ╚██████╔╝╚██████╔╝██║███████╗██║███████╗██║██║ ╚████║██║  ██║╚██████╔╝\n" +
-                "     ╚══▀▀═╝  ╚═════╝ ╚═╝╚══════╝╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ " +
-                "\n");
+        out.write(Logos.QUIZIZINHO.getText());
         out.newLine();
         out.flush();
-        
 
         String[] options = {"Join the Quizizinho", "Leave"};
         MenuInputScanner mainMenu = new MenuInputScanner(options);
@@ -90,7 +82,7 @@ public class GameLogic {
         out.newLine();
         out.flush();
 
-        nextScreen("Get ready!!\nQuestion #1\n");
+        nextScreen("Welcome to the QUIZIZINHO, " + playerName + "! Good luck :)\nGet ready!!\nQuestion #1\n");
 
         gameStart();
     }
@@ -113,6 +105,8 @@ public class GameLogic {
         int printQuestion = questionCounter + 1;
 
         while (questionCounter < NUMBER_OF_ROUNDS){
+
+
             question();
             questionCounter++;
 
@@ -124,9 +118,14 @@ public class GameLogic {
             String answer = questionAnswers[answerIndex - 1];
 
             if(!answer.equals(correctAnswer)){
-                clear();
 
+                clear();
                 printQuestion++;
+
+                if(questionCounter == NUMBER_OF_ROUNDS){
+                    break;
+                }
+
                 String wrongMsg = WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText();
 
                 nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
@@ -136,9 +135,14 @@ public class GameLogic {
             }
 
             printQuestion++;
+
+
             nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! Great Success ***\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
             playerScore+= 10;
 
+            if(questionCounter == NUMBER_OF_ROUNDS){
+                break;
+            }
         }
 
         gameOver();
@@ -147,7 +151,7 @@ public class GameLogic {
 
     public void gameOver() throws IOException {
 
-        out.write(" === GAME OVER! ===\nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
+        out.write(Logos.GAME_OVER.getText() + "\nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
         newLineAndFlush();
     }
 
