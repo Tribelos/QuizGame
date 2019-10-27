@@ -54,6 +54,7 @@ public class Server {
 
 
     private void serverMenu(BufferedReader in, BufferedWriter out, Socket clientSocket) throws IOException {
+
         out.write("\n" +
                 "     ██████╗ ██╗   ██╗██╗███████╗██╗███████╗██╗███╗   ██╗██╗  ██╗ ██████╗ \n" +
                 "    ██╔═══██╗██║   ██║██║╚══███╔╝██║╚══███╔╝██║████╗  ██║██║  ██║██╔═══██╗\n" +
@@ -71,7 +72,7 @@ public class Server {
 
         int answerIndex = serverPrompt.getUserInput(mainMenu);
 
-        if (answerIndex == 2){
+        if (answerIndex == 2) {
             out.write("K then bye");
             out.newLine();
             out.flush();
@@ -80,14 +81,17 @@ public class Server {
             clientSocket.close();
         }
 
-        if(answerIndex == 1){
+        if(answerIndex == 1) {
+
             out.write("Let's play !! Good luck !!");
             out.newLine();
             out.flush();
+
             StringInputScanner askName = new StringInputScanner();
             askName.setMessage("What's your name?  ");
             out.newLine();
             String playerName = serverPrompt.getUserInput(askName);
+
             CurrentPlayer player = new CurrentPlayer(playerName, clientSocket, in, out);
             currentPlayers.add(player);
 
@@ -112,11 +116,14 @@ public class Server {
 
                 serverMenu(in,out,clientSocket);
 
-                if(currentPlayers.size() == 2) {
+                out.write("waiting for players");
+                out.newLine();
+                out.flush();
+
+                while (currentPlayers.size() != 2) {
                     GameLogic gameLogic = new GameLogic(currentPlayers);
                     //start game method
                 }
-
 
                 while (!clientSocket.isClosed()) {
 

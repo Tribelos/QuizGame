@@ -33,7 +33,7 @@ public class GameLogic {
         PrintStream output = new PrintStream(clientSocket.getOutputStream());
         this.prompt = new Prompt(input, output);
     }
-    
+
 
     private void question(){
 
