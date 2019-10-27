@@ -123,17 +123,11 @@ public class Server {
                 out.flush();
 
                 while (currentPlayers.size() <= 2) {
-
-                    if( currentPlayers.size() == 2) {
-                        Game newGame = new Game(currentPlayers);
-                        newGame.start();
-                        int i = 0;
-                        break;
-                    }
-
                     continue;
-                    
                 }
+
+                Game newGame = new Game(currentPlayers);
+                newGame.start();
 
                 while (!clientSocket.isClosed()) {
 

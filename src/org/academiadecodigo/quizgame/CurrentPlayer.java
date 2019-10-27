@@ -11,10 +11,6 @@ public class CurrentPlayer {
         this.playerGameLogic = new GameLogic(clientSocket, in, out, name, 0);
     }
 
-    public void setPlayerGameLogic(GameLogic playerGameLogic) {
-        this.playerGameLogic = playerGameLogic;
-    }
-
     public GameLogic getPlayerGameLogic() {
         return playerGameLogic;
     }
