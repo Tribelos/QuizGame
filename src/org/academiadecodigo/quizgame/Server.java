@@ -114,7 +114,7 @@ public class Server {
 
                 if(currentPlayers.size() == 2) {
                     GameLogic gameLogic = new GameLogic(currentPlayers);
-                    gameLogic.menuInit();
+                    //start game method
                 }
 
 
@@ -138,5 +138,5 @@ public class Server {
         }
 
     }
-    
+
 }

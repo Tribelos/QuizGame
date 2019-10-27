@@ -7,17 +7,13 @@ import org.academiadecodigo.quizgame.timer.CountDown;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class GameLogic {
 
-    private Socket clientSocket;
-    private BufferedReader in;
-    private BufferedWriter out;
+
     private Prompt prompt;
-    private Questions questions;
-    private String playerName;
-    private int playerScore;
+
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
@@ -25,85 +21,19 @@ public class GameLogic {
     private ArrayList<CurrentPlayer> currentPlayers;
 
 
-    /*
-    public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
-        this.clientSocket = clientSocket;
-        this.in = in;
-        this.out = out;
-        this.questions = new Questions();
-        init();
-    } */
 
-
-    public GameLogic (ArrayList<CurrentPlayer> currentPlayers) {
+    public GameLogic (ArrayList<CurrentPlayer> currentPlayers) throws IOException {
         this.currentPlayers = currentPlayers;
+        init();
     }
 
-
     private void init() throws IOException {
+
         InputStream input = clientSocket.getInputStream();
         PrintStream output = new PrintStream(clientSocket.getOutputStream());
         this.prompt = new Prompt(input, output);
     }
-
-    public void menuInit() throws IOException {
-        startMenu();
-    }
     
-    private void startMenu() throws IOException {
-
-        out.write("\n" +
-                "     ██████╗ ██╗   ██╗██╗███████╗██╗███████╗██╗███╗   ██╗██╗  ██╗ ██████╗ \n" +
-                "    ██╔═══██╗██║   ██║██║╚══███╔╝██║╚══███╔╝██║████╗  ██║██║  ██║██╔═══██╗\n" +
-                "    ██║   ██║██║   ██║██║  ███╔╝ ██║  ███╔╝ ██║██╔██╗ ██║███████║██║   ██║\n" +
-                "    ██║▄▄ ██║██║   ██║██║ ███╔╝  ██║ ███╔╝  ██║██║╚██╗██║██╔══██║██║   ██║\n" +
-                "    ╚██████╔╝╚██████╔╝██║███████╗██║███████╗██║██║ ╚████║██║  ██║╚██████╔╝\n" +
-                "     ╚══▀▀═╝  ╚═════╝ ╚═╝╚══════╝╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ " +
-                "\n");
-        out.newLine();
-        out.flush();
-        
-
-        String[] options = {"Join the Quizizinho", "Leave"};
-        MenuInputScanner mainMenu = new MenuInputScanner(options);
-        mainMenu.setMessage("Do you want to play?");
-
-        int answerIndex = prompt.getUserInput(mainMenu);
-        
-        if (answerIndex == 2){
-            out.write("K then bye");
-            out.newLine();
-            out.flush();
-            out.close();
-            in.close();
-            clientSocket.close();
-        }
-
-        if(answerIndex == 1){
-            out.write("Let's play !! Good luck !!");
-            out.newLine();
-            out.flush();
-            chooseName();
-        }
-    }
-
-    private void chooseName() throws IOException {
-
-        StringInputScanner askName = new StringInputScanner();
-        askName.setMessage("What's your name?  ");
-        out.newLine();
-
-        playerName = prompt.getUserInput(askName);
-
-        out.write("Welcome to the QUIZIZINHO, " + playerName + "! Good luck!");
-        out.newLine();
-        out.flush();
-
-        nextScreen("Get ready!!\nQuestion #1\n");
-
-        gameStart();
-    }
-
 
     private void question(){
 
