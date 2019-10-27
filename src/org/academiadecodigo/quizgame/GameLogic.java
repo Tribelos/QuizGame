@@ -7,6 +7,7 @@ import org.academiadecodigo.quizgame.timer.CountDown;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class GameLogic {
 
@@ -21,15 +22,23 @@ public class GameLogic {
     private String[] questionAnswers;
     private String correctAnswer;
     public static final int NUMBER_OF_ROUNDS = 15;
+    private ArrayList<CurrentPlayer> currentPlayers;
 
 
+    /*
     public GameLogic(Socket clientSocket, BufferedReader in, BufferedWriter out) throws IOException {
         this.clientSocket = clientSocket;
         this.in = in;
         this.out = out;
         this.questions = new Questions();
         init();
+    } */
+
+
+    public GameLogic (ArrayList<CurrentPlayer> currentPlayers) {
+        this.currentPlayers = currentPlayers;
     }
+
 
     private void init() throws IOException {
         InputStream input = clientSocket.getInputStream();
