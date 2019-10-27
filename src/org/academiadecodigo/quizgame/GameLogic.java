@@ -90,6 +90,8 @@ public class GameLogic {
         out.newLine();
         out.flush();
 
+        nextScreen("Get ready!!\nQuestion #1\n");
+
         gameStart();
     }
 
@@ -108,6 +110,7 @@ public class GameLogic {
 
         playerScore = 0;
         int questionCounter = 0;
+        int printQuestion = questionCounter + 1;
 
         while (questionCounter < NUMBER_OF_ROUNDS){
             question();
@@ -122,13 +125,19 @@ public class GameLogic {
 
             if(!answer.equals(correctAnswer)){
                 clear();
-                out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
+
+                //out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
+                printQuestion++;
+                String wrongMsg = WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText();
+
+                nextScreen(wrongMsg + "\nQuestion #" + printQuestion);
                 newLineAndFlush();
 
                 continue;
             }
 
-            nextScreen("*** CORRECT! Great Success ***");
+            printQuestion++;
+            nextScreen("*** CORRECT! Great Success ***\nQuestion #" + printQuestion);
             playerScore+= 10;
 
         }
