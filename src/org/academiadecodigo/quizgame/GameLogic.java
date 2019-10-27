@@ -105,7 +105,7 @@ public class GameLogic {
         int printQuestion = questionCounter + 1;
 
         while (questionCounter < NUMBER_OF_ROUNDS){
-            
+
             question();
             questionCounter++;
 
@@ -126,6 +126,10 @@ public class GameLogic {
                 nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
                 newLineAndFlush();
 
+                if (printQuestion == 3){
+                    break;
+                }
+
                 continue;
             }
 
@@ -134,9 +138,45 @@ public class GameLogic {
             nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! GREAT SUCCESS ***\nQUESTION #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
             playerScore+= 10;
 
+            if (printQuestion == 3){
+                break;
+            }
+
         }
 
-        gameOver();
+        clear();
+        finalQuestion();
+
+    }
+
+
+    private void finalQuestion() throws IOException {
+
+        MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
+        mainMenu.setMessage(questionText);
+
+        int answerIndex = prompt.getUserInput(mainMenu);
+
+        String answer = questionAnswers[answerIndex - 1];
+
+        if(!answer.equals(correctAnswer)){
+
+            clear();
+
+            String wrongMsg = WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText();
+
+            nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\n");
+            newLineAndFlush();
+            gameOver();
+
+        } else {
+
+            nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! GREAT SUCCESS ***");
+            playerScore+= 10;
+
+            gameOver();
+
+        }
     }
 
 
@@ -156,7 +196,7 @@ public class GameLogic {
         out.write(message);
         newLineAndFlush();
 
-        CountDown countDown = new CountDown(1, out);
+        CountDown countDown = new CountDown(3, out);
 
         while(countDown.isActive()){
             System.out.println("\n");
@@ -168,4 +208,5 @@ public class GameLogic {
         out.write("\033[2J");
         newLineAndFlush();
     }
+
 }
