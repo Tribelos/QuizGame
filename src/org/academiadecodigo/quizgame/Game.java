@@ -12,12 +12,10 @@ public class Game {
     }
 
     public void start() throws IOException {
-        
-        for (CurrentPlayer currentPlayer : currentPlayers) {
-            GameLogic gameLogic = new GameLogic(currentPlayer.getClientSocket(), currentPlayer.getIn(), currentPlayer.getOut(), currentPlayer.getName(), currentPlayer.getScore());
-            gameLogic.gameStart();
-        }
 
+        for (CurrentPlayer currentPlayer : currentPlayers) {
+            currentPlayer.getPlayerGameLogic().gameStart();
+        }
 
     }
 

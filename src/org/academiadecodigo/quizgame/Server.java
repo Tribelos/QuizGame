@@ -127,9 +127,12 @@ public class Server {
                     if( currentPlayers.size() == 2) {
                         Game newGame = new Game(currentPlayers);
                         newGame.start();
+                        int i = 0;
                         break;
                     }
+
                     continue;
+                    
                 }
 
                 while (!clientSocket.isClosed()) {
