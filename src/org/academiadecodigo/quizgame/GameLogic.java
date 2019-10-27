@@ -126,18 +126,17 @@ public class GameLogic {
             if(!answer.equals(correctAnswer)){
                 clear();
 
-                //out.write((WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText()));
                 printQuestion++;
                 String wrongMsg = WrongAnswer.values()[(int) (Math.random() * WrongAnswer.values().length)].getText();
 
-                nextScreen(wrongMsg + "\nQuestion #" + printQuestion);
+                nextScreen(Logos.WRONG.getText() + "\n" + wrongMsg + "\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
                 newLineAndFlush();
 
                 continue;
             }
 
             printQuestion++;
-            nextScreen("*** CORRECT! Great Success ***\nQuestion #" + printQuestion);
+            nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! Great Success ***\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
             playerScore+= 10;
 
         }
