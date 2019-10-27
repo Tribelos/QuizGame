@@ -16,6 +16,7 @@ public class GameLogic implements Runnable {
     private String name;
     private int score;
 
+    private Questions questions;
     private String questionText;
     private String[] questionAnswers;
     private String correctAnswer;
@@ -48,7 +49,6 @@ public class GameLogic implements Runnable {
 
     private void gameStart() throws IOException {
 
-        playerScore = 0;
         int questionCounter = 0;
         int printQuestion = questionCounter + 1;
 
@@ -77,7 +77,7 @@ public class GameLogic implements Runnable {
 
             printQuestion++;
             nextScreen(Logos.CORRECT.getText() + "\n*** CORRECT! Great Success ***\nQuestion #" + printQuestion + "\n" + Logos.NEW_ROUND.getText());
-            playerScore+= 10;
+            score+= 10;
 
         }
 
@@ -87,7 +87,7 @@ public class GameLogic implements Runnable {
 
     public void gameOver() throws IOException {
 
-        out.write(" === GAME OVER! ===\nCongratulations " + playerName + "!\nYour score is " + playerScore +"." );
+        out.write(" === GAME OVER! ===\nCongratulations " + name + "!\nYour score is " + score +"." );
         newLineAndFlush();
     }
 
@@ -117,6 +117,10 @@ public class GameLogic implements Runnable {
 
     @Override
     public void run() {
-
+        try {
+            gameStart();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
