@@ -5,6 +5,7 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.quizgame.timer.CountDown;
 
+import javax.sound.sampled.AudioInputStream;
 import java.io.*;
 import java.net.*;
 
