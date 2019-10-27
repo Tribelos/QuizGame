@@ -3,6 +3,7 @@ package org.academiadecodigo.quizgame;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+import org.academiadecodigo.quizgame.timer.CountDown;
 
 import java.io.*;
 import java.net.*;
@@ -103,20 +104,16 @@ public class GameLogic {
         correctAnswer = question[5];
     }
 
-
-
     private void gameStart() throws IOException {
 
         playerScore = 0;
         int questionCounter = 0;
 
         while (questionCounter < NUMBER_OF_ROUNDS){
-
             question();
             questionCounter++;
 
             MenuInputScanner mainMenu = new MenuInputScanner(questionAnswers);
-
             mainMenu.setMessage(questionText);
 
             int answerIndex = prompt.getUserInput(mainMenu);
@@ -130,10 +127,8 @@ public class GameLogic {
 
                 continue;
             }
-            clear();
-            out.write("*** CORRECT! Great Success ***");
-            newLineAndFlush();
 
+            nextScreen("*** CORRECT! Great Success ***");
             playerScore+= 10;
 
         }
@@ -153,8 +148,22 @@ public class GameLogic {
         out.flush();
     }
 
+    private void nextScreen(String message) throws IOException {
+
+        clear();
+        out.write(message);
+        newLineAndFlush();
+
+        CountDown countDown = new CountDown(3, out);
+
+        while(countDown.isActive()){
+            System.out.println("while in...");
+        }
+
+    }
+
     private void clear() throws IOException {
         out.write("\033[2J");
-        out.flush();
+        newLineAndFlush();
     }
 }
